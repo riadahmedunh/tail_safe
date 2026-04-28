@@ -1,0 +1,401 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description"
+        content="TAIL-Safe: Task-Agnostic Safety Monitoring for Imitation Learning Policies. Robotics: Science and Systems (RSS) 2026.">
+  <meta name="keywords" content="TAIL-Safe, Imitation Learning, Safety, Robotics, RSS 2026, CARL Lab, UNH">
+  <meta property="og:title" content="TAIL-Safe: Task-Agnostic Safety Monitoring for Imitation Learning Policies">
+  <meta property="og:description" content="A task-agnostic safety monitor that catches imitation-learning failures in real time.">
+  <meta property="og:image" content="static/images/teaser.png">
+  <title>TAIL-Safe &middot; RSS 2026</title>
+
+  <link rel="icon" type="image/svg+xml"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%231f6feb'/%3E%3Ctext x='50%25' y='55%25' text-anchor='middle' font-size='28' font-family='Arial' fill='white' font-weight='bold'%3ETS%3C/text%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+</head>
+<body>
+
+<!-- ============== HERO ============== -->
+<section class="hero is-light">
+  <div class="hero-body">
+    <div class="container is-max-desktop has-text-centered">
+      <h1 class="title is-1 publication-title">
+        TAIL&#8209;Safe: Task&#8209;Agnostic Safety Monitoring<br>
+        for Imitation Learning Policies
+      </h1>
+
+      <h2 class="subtitle is-4 publication-venue">
+        <span class="venue-pill">Robotics: Science and Systems (RSS) 2026</span>
+      </h2>
+
+      <div class="is-size-5 publication-authors">
+        <span class="author-block">
+          <a href="#" target="_blank">Riad Ahmed</a><sup>1</sup>,
+        </span>
+        <span class="author-block">
+          <a href="#" target="_blank">Momotaz Begum</a><sup>1</sup>
+        </span>
+      </div>
+
+      <div class="is-size-6 publication-affiliations">
+        <span class="author-block"><sup>1</sup>CARL Lab, University of New Hampshire</span>
+      </div>
+
+      <!-- Buttons -->
+      <div class="publication-links">
+        <span class="link-block">
+          <a href="static/pdfs/paper741.pdf" target="_blank" class="external-link button is-normal is-rounded is-dark">
+            <span class="icon"><i class="fas fa-file-pdf"></i></span>
+            <span>Paper</span>
+          </a>
+        </span>
+        <span class="link-block">
+          <a href="#" class="external-link button is-normal is-rounded is-dark">
+            <span class="icon"><i class="ai ai-arxiv"></i></span>
+            <span>arXiv</span>
+          </a>
+        </span>
+        <span class="link-block">
+          <a href="#" class="external-link button is-normal is-rounded is-dark is-disabled">
+            <span class="icon"><i class="fab fa-github"></i></span>
+            <span>Code (coming soon)</span>
+          </a>
+        </span>
+        <span class="link-block">
+          <a href="#video" class="external-link button is-normal is-rounded is-dark">
+            <span class="icon"><i class="fab fa-youtube"></i></span>
+            <span>Video</span>
+          </a>
+        </span>
+        <span class="link-block">
+          <a href="#bibtex" class="external-link button is-normal is-rounded is-dark">
+            <span class="icon"><i class="fas fa-quote-left"></i></span>
+            <span>BibTeX</span>
+          </a>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TEASER ============== -->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="static/images/energy_hill_3d_surface.svg" alt="TAIL-Safe energy landscape">
+      <h2 class="subtitle has-text-centered">
+        <strong>TAIL&#8209;Safe</strong> learns a task&#8209;agnostic safety landscape over visuomotor states
+        and monitors imitation&#8209;learning policies in real time &mdash; flagging unsafe rollouts
+        and triggering recovery behaviors before failures occur.
+      </h2>
+    </div>
+  </div>
+</section>
+
+<!-- ============== ABSTRACT ============== -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Imitation learning has emerged as a powerful paradigm for training visuomotor policies
+            from human demonstrations, yet deployed policies remain brittle to distribution shift,
+            occlusions, and out-of-distribution scenes that can cause silent failures on real hardware.
+            We present <strong>TAIL&#8209;Safe</strong>, a <em>task-agnostic</em> safety monitoring
+            framework that learns a continuous <em>safety landscape</em> over a policy's perceptual and
+            action space, enabling real-time detection of unsafe behavior without requiring task-specific
+            cost functions or hand-engineered constraints.
+          </p>
+          <p>
+            TAIL&#8209;Safe couples a learned energy/value model with a lightweight runtime monitor
+            that scores rollouts as they execute, predicts impending failures from voxelized
+            observations, and triggers recovery primitives when the policy enters high-risk regions
+            of the safety landscape. We evaluate TAIL&#8209;Safe across simulated and real-robot
+            manipulation tasks, including pick-and-place under heavy perturbation, novel object
+            configurations, and adversarial scene changes. Our experiments show that TAIL&#8209;Safe
+            (i) reliably distinguishes safe from unsafe rollouts, (ii) generalizes across tasks
+            without retraining, and (iii) significantly reduces failure rates while preserving the
+            success of the underlying imitation policy.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SUPPLEMENTARY VIDEO ============== -->
+<section class="section" id="video">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Supplementary Video</h2>
+        <div class="publication-video">
+          <video controls preload="metadata">
+            <source src="static/videos/main_overview.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <p class="is-size-7 has-text-grey" style="margin-top:0.75em;">
+          If the video does not play, download it
+          <a href="static/videos/main_overview.mp4">here</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== METHOD ============== -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Method</h2>
+    <div class="columns is-centered">
+      <div class="column">
+        <div class="content has-text-justified">
+          <p>
+            TAIL&#8209;Safe trains a neural <em>safety landscape</em> &mdash; a smooth scalar field
+            over visuomotor latents whose level sets approximate the boundary between safe and
+            unsafe policy executions. At runtime, a monitor projects the current state onto the
+            landscape, computes a value/energy score, and uses its temporal evolution to anticipate
+            failures several steps ahead of when they would actually occur on hardware.
+          </p>
+        </div>
+        <figure class="image">
+          <img src="static/images/landscape_value.svg" alt="Learned safety landscape">
+          <figcaption class="has-text-centered is-size-7">
+            Learned safety landscape over policy latents. Safe trajectories stay in the basin;
+            unsafe rollouts climb the energy hill.
+          </figcaption>
+        </figure>
+      </div>
+      <div class="column">
+        <figure class="image">
+          <img src="static/images/energy_hill_3d_surface.svg" alt="Energy landscape">
+          <figcaption class="has-text-centered is-size-7">
+            3D view of the safety landscape. Recovery is triggered when the value crosses a
+            learned threshold.
+          </figcaption>
+        </figure>
+        <figure class="image" style="margin-top:1em;">
+          <img src="static/images/value_score.png" alt="Value score over time">
+          <figcaption class="has-text-centered is-size-7">
+            Value score evolution over a rollout. Safe vs. unsafe trajectories diverge well before
+            catastrophic failure.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== SUCCESSFUL ROLLOUTS ============== -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Successful Rollouts</h2>
+    <p class="has-text-centered" style="margin-bottom:1.5em;">
+      The underlying imitation policy succeeds; TAIL&#8209;Safe stays silent and the value score
+      remains in the safe basin throughout.
+    </p>
+    <div class="columns is-multiline">
+      <div class="column is-half">
+        <video controls muted playsinline preload="metadata"><source src="static/videos/success_1.mp4" type="video/mp4"></video>
+        <p class="has-text-centered is-size-7">Pick-and-place &mdash; nominal conditions.</p>
+      </div>
+      <div class="column is-half">
+        <video controls muted playsinline preload="metadata"><source src="static/videos/success_fm.mp4" type="video/mp4"></video>
+        <p class="has-text-centered is-size-7">Pick-and-place &mdash; perturbed scene.</p>
+      </div>
+      <div class="column is-half">
+        <video controls muted playsinline preload="metadata"><source src="static/videos/episode_0010.mp4" type="video/mp4"></video>
+        <p class="has-text-centered is-size-7">Sim rollout &mdash; episode 10.</p>
+      </div>
+      <div class="column is-half">
+        <video controls muted playsinline preload="metadata"><source src="static/videos/episode_0025.mp4" type="video/mp4"></video>
+        <p class="has-text-centered is-size-7">Sim rollout &mdash; episode 25.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FAILURE DETECTION ============== -->
+<section class="section section-alt">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Failure Detection</h2>
+    <p class="has-text-centered" style="margin-bottom:1.5em;">
+      Without any task-specific cost, TAIL&#8209;Safe flags failures of the imitation policy &mdash;
+      from missed grasps to drift into out&#8209;of&#8209;distribution scenes.
+    </p>
+    <div class="columns is-multiline">
+      <div class="column is-half">
+        <video controls muted playsinline preload="metadata"><source src="static/videos/failure_1.mp4" type="video/mp4"></video>
+        <p class="has-text-centered is-size-7">Failure case 1 &mdash; missed grasp.</p>
+      </div>
+      <div class="column is-half">
+        <video controls muted playsinline preload="metadata"><source src="static/videos/failure_2.mp4" type="video/mp4"></video>
+        <p class="has-text-centered is-size-7">Failure case 2 &mdash; object slip.</p>
+      </div>
+      <div class="column is-half">
+        <video controls muted playsinline preload="metadata"><source src="static/videos/failure_3.mp4" type="video/mp4"></video>
+        <p class="has-text-centered is-size-7">Failure case 3 &mdash; perturbed pose.</p>
+      </div>
+      <div class="column is-half">
+        <video controls muted playsinline preload="metadata"><source src="static/videos/failure_4.mp4" type="video/mp4"></video>
+        <p class="has-text-centered is-size-7">Failure case 4 &mdash; OOD distractor.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== RECOVERY ============== -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Recovery Behaviors</h2>
+    <p class="has-text-centered" style="margin-bottom:1.5em;">
+      When the safety monitor detects a high-risk state, TAIL&#8209;Safe hands control to a recovery
+      primitive that returns the system to a safe basin before resuming the policy.
+    </p>
+    <div class="columns is-multiline">
+      <div class="column is-half">
+        <video controls muted playsinline preload="metadata"><source src="static/videos/recovery_sim.mp4" type="video/mp4"></video>
+        <p class="has-text-centered is-size-7">Recovery in simulation.</p>
+      </div>
+      <div class="column is-half">
+        <video controls muted playsinline preload="metadata"><source src="static/videos/recovery_01.mp4" type="video/mp4"></video>
+        <p class="has-text-centered is-size-7">Recovery on real robot.</p>
+      </div>
+      <div class="column is-half">
+        <video controls muted playsinline preload="metadata"><source src="static/videos/recovery_002.mp4" type="video/mp4"></video>
+        <p class="has-text-centered is-size-7">Recovery under perturbation.</p>
+      </div>
+      <div class="column is-half">
+        <figure class="image">
+          <img src="static/images/recovery_rollout.png" alt="Recovery rollout">
+          <figcaption class="has-text-centered is-size-7">
+            Trajectory snapshot: monitor trips at the red marker; recovery returns to the safe basin.
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== EXTREME / OOD ============== -->
+<section class="section section-alt">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Extreme &amp; Out&#8209;of&#8209;Distribution Cases</h2>
+    <p class="has-text-centered" style="margin-bottom:1.5em;">
+      Stress tests with novel objects, occlusions, and adversarial scene changes.
+    </p>
+    <div class="columns is-multiline">
+      <div class="column is-half">
+        <video controls muted playsinline preload="metadata"><source src="static/videos/extreme_fail_2.mp4" type="video/mp4"></video>
+        <p class="has-text-centered is-size-7">Extreme OOD case A.</p>
+      </div>
+      <div class="column is-half">
+        <video controls muted playsinline preload="metadata"><source src="static/videos/extreme_fail_3.mp4" type="video/mp4"></video>
+        <p class="has-text-centered is-size-7">Extreme OOD case B.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== REAL-WORLD ============== -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Real&#8209;World Experiments</h2>
+    <p class="has-text-centered" style="margin-bottom:1.5em;">
+      Real&#8209;robot deployments captured during physical evaluation.
+    </p>
+    <div class="columns is-multiline">
+      <div class="column is-one-third">
+        <video controls muted playsinline preload="metadata">
+          <source src="static/videos/real_demo_1.mp4" type="video/mp4">
+          <source src="static/videos/real_demo_1.mov" type="video/quicktime">
+        </video>
+        <p class="has-text-centered is-size-7">Real-robot run 1.</p>
+      </div>
+      <div class="column is-one-third">
+        <video controls muted playsinline preload="metadata">
+          <source src="static/videos/real_demo_2.mp4" type="video/mp4">
+          <source src="static/videos/real_demo_2.mov" type="video/quicktime">
+        </video>
+        <p class="has-text-centered is-size-7">Real-robot run 2.</p>
+      </div>
+      <div class="column is-one-third">
+        <video controls muted playsinline preload="metadata">
+          <source src="static/videos/real_demo_3.mp4" type="video/mp4">
+          <source src="static/videos/real_demo_3.mov" type="video/quicktime">
+        </video>
+        <p class="has-text-centered is-size-7">Real-robot run 3.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== QUANT RESULTS ============== -->
+<section class="section section-alt">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Quantitative Results</h2>
+    <div class="columns is-multiline is-centered">
+      <div class="column is-half">
+        <figure class="image"><img src="static/images/safe_start.png" alt="Safe start">
+          <figcaption class="has-text-centered is-size-7">Safe initial condition.</figcaption></figure>
+      </div>
+      <div class="column is-half">
+        <figure class="image"><img src="static/images/unsafe_start.png" alt="Unsafe start">
+          <figcaption class="has-text-centered is-size-7">Unsafe initial condition flagged by monitor.</figcaption></figure>
+      </div>
+      <div class="column is-half">
+        <figure class="image"><img src="static/images/value_score_robot.png" alt="Value score on real robot">
+          <figcaption class="has-text-centered is-size-7">Value score on real-robot trials.</figcaption></figure>
+      </div>
+      <div class="column is-half">
+        <figure class="image"><img src="static/images/trajectory_with_safesets.png" alt="Trajectory with safe sets">
+          <figcaption class="has-text-centered is-size-7">Trajectory overlaid with learned safe sets.</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== BIBTEX ============== -->
+<section class="section" id="bibtex">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+<pre><code>@inproceedings{ahmed2026tailsafe,
+  title     = {TAIL-Safe: Task-Agnostic Safety Monitoring for Imitation Learning Policies},
+  author    = {Ahmed, Riad and Begum, Momotaz},
+  booktitle = {Proceedings of Robotics: Science and Systems (RSS)},
+  year      = {2026}
+}</code></pre>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8 has-text-centered">
+        <p class="is-size-7">
+          Website template inspired by
+          <a href="https://nerfies.github.io/">Nerfies</a>, released under
+          <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a>.
+        </p>
+        <p class="is-size-7">&copy; CARL Lab, University of New Hampshire.</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
